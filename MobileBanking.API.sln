@@ -1,0 +1,67 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32630.194
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileBanking.API", "MobileBanking.API\MobileBanking.API.csproj", "{ABCB0150-4BC3-4BDF-87F4-D390C992DEB6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileBanking.Data", "MobileBanking.Data\MobileBanking.Data.csproj", "{6383A09A-865C-4600-803C-146D8209CD88}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileBanking.CoreServices", "MobileBanking.Services\MobileBanking.CoreServices.csproj", "{44ED7B9C-D5D1-41A2-BD5F-65E7AAC8AAD0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileBanking.Shared", "MobileBanking.Shared\MobileBanking.Shared.csproj", "{7C53119F-F3CB-4C0A-BA4F-E7B2EB95F1DC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileBanking.MTN", "MobileBanking.MTN\MobileBanking.MTN.csproj", "{535B1279-2B0B-40D6-B550-01395EAAF7E0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MobileBanking.Airtel", "MobileBanking.Airtel\MobileBanking.Airtel.csproj", "{F63A97F5-4565-40BC-AEFD-93DB8DC2A20F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileBanking.ServiceProviders", "MobileBanking.ServiceProviders\MobileBanking.ServiceProviders.csproj", "{DFCF6D70-FE32-4B5A-8632-3B403862160D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MobileBanking.WorkerService", "MobileBanking.WorkerService\MobileBanking.WorkerService.csproj", "{234C555F-68CD-4460-AFA2-3DBEEE1CCFD7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ABCB0150-4BC3-4BDF-87F4-D390C992DEB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABCB0150-4BC3-4BDF-87F4-D390C992DEB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABCB0150-4BC3-4BDF-87F4-D390C992DEB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABCB0150-4BC3-4BDF-87F4-D390C992DEB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6383A09A-865C-4600-803C-146D8209CD88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6383A09A-865C-4600-803C-146D8209CD88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6383A09A-865C-4600-803C-146D8209CD88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6383A09A-865C-4600-803C-146D8209CD88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44ED7B9C-D5D1-41A2-BD5F-65E7AAC8AAD0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44ED7B9C-D5D1-41A2-BD5F-65E7AAC8AAD0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44ED7B9C-D5D1-41A2-BD5F-65E7AAC8AAD0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44ED7B9C-D5D1-41A2-BD5F-65E7AAC8AAD0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C53119F-F3CB-4C0A-BA4F-E7B2EB95F1DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C53119F-F3CB-4C0A-BA4F-E7B2EB95F1DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C53119F-F3CB-4C0A-BA4F-E7B2EB95F1DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C53119F-F3CB-4C0A-BA4F-E7B2EB95F1DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{535B1279-2B0B-40D6-B550-01395EAAF7E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{535B1279-2B0B-40D6-B550-01395EAAF7E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{535B1279-2B0B-40D6-B550-01395EAAF7E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{535B1279-2B0B-40D6-B550-01395EAAF7E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F63A97F5-4565-40BC-AEFD-93DB8DC2A20F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F63A97F5-4565-40BC-AEFD-93DB8DC2A20F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F63A97F5-4565-40BC-AEFD-93DB8DC2A20F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F63A97F5-4565-40BC-AEFD-93DB8DC2A20F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFCF6D70-FE32-4B5A-8632-3B403862160D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFCF6D70-FE32-4B5A-8632-3B403862160D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFCF6D70-FE32-4B5A-8632-3B403862160D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFCF6D70-FE32-4B5A-8632-3B403862160D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{234C555F-68CD-4460-AFA2-3DBEEE1CCFD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{234C555F-68CD-4460-AFA2-3DBEEE1CCFD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{234C555F-68CD-4460-AFA2-3DBEEE1CCFD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{234C555F-68CD-4460-AFA2-3DBEEE1CCFD7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1F8F3281-A9BF-497E-A605-E0265E1A4554}
+	EndGlobalSection
+EndGlobal
