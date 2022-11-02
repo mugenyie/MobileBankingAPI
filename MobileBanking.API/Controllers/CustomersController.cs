@@ -6,7 +6,9 @@ using MobileBanking.Services.Interfaces;
 using MobileBanking.Shared.Exceptions;
 using MobileBanking.Shared.Helpers;
 using MobileBanking.Shared.ViewModels;
+using MobileBanking.Shared.ViewModels.Reponses;
 using MobileBanking.Shared.ViewModels.Requests;
+using Omu.ValueInjecter;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,7 +16,6 @@ using System.Threading.Tasks;
 
 namespace MobileBanking.API.Controllers
 {
-    [ApiKey]
     [Route("v1/[controller]")]
     [ApiController]
     public class CustomersController : ControllerBase
@@ -37,11 +38,27 @@ namespace MobileBanking.API.Controllers
             {
                 string token = "";
                 var customer = _customerService.Authenticate(user);
+
                 if (customer != null)
                 {
                     token = JWTTokenHelpers.GenerateToken(customer.EmailAddress);
                 }
-                return Ok(new { User = customer, Token = token });
+
+                var customerVm = Mapper.Map<CustomerLoginResponse>(customer);
+                List<AccountVM> accounts = new List<AccountVM>();
+                foreach (var account in customer.CustomerAccounts)
+                {
+                    accounts.Add(new AccountVM
+                    {
+                        Name = account.Account.Name,
+                        AccountNumber = account.Account.AccountNumber,
+                        Description = account.Account.Description,
+                        NewBalance = account.Account.NewBalance
+                    });
+                }
+                customerVm.Accounts = accounts;
+
+                return Ok(new { User = customerVm, Token = token });
             }
             catch (InvalidAccountExceptions exp)
             {

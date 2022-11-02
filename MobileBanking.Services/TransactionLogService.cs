@@ -66,9 +66,17 @@ namespace MobileBanking.Services
 
             var transactions = _transactionLogRepository.Query()
                 .Where(x => x.CreatedOnUTC >= minDate && x.AccountNumber.Equals(accountNumber))
+                .OrderByDescending(x => x.CreatedOnUTC)
                 .ToList();
 
             return transactions;
+        }
+
+        public void ProcessOrder(TransactionLog transaction)
+        {
+            transaction.OrderStatus = OrderStatus.SUCCESSFUL;
+            transaction.TransactionStatus = TransactionStatus.SUCCESSFUL;
+            _transactionLogRepository.Update(transaction);
         }
     }
 }

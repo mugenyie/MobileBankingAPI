@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MobileBanking.Data;
+using MobileBanking.MTN.Services;
 using MobileBanking.ServiceProviders;
 using MobileBanking.ServiceProviders.Interfaces;
 using MobileBanking.Services;
@@ -66,7 +67,7 @@ namespace MobileBanking.API
             services.AddSingleton<ICachingService, CachingService>();
             services.AddDistributedRedisCache(option =>
             {
-                option.Configuration = Configuration["ConnectionString:RedisHost"];
+                option.Configuration = "127.0.0.1:6379";
             });
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));

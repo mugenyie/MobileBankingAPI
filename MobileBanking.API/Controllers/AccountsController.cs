@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MobileBanking.API.Attributes;
 using MobileBanking.Services.Interfaces;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 namespace MobileBanking.API.Controllers
 {
     [ApiKey]
+    [Authorize]
     [Route("v1/[controller]")]
     [ApiController]
     public class AccountsController : ControllerBase

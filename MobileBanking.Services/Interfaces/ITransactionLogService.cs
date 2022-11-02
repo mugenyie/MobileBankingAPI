@@ -11,5 +11,6 @@ namespace MobileBanking.Services.Interfaces
     {
         List<TransactionLog> GetHistory(string accountNumber);
         TransactionLog Add(InitiateTransactionRequest transactionRequest, TransactionType transactionType);
+        void ProcessOrder(TransactionLog transaction);
     }
 }

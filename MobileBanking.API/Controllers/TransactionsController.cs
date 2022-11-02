@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 namespace MobileBanking.API.Controllers
 {
     [ApiKey]
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class TransactionsController : ControllerBase
@@ -36,7 +37,7 @@ namespace MobileBanking.API.Controllers
         [Route("Initiate")]
         public async Task<IActionResult> InitiateTransactionAsync([FromBody] InitiateTransactionRequest transactionRequest)
         {
-            Request.Headers.TryGetValue("user-id", out var userId);
+            //Request.Headers.TryGetValue("user-id", out var userId);
 
             if (!StringHelpers.IsValidPhoneNumber(transactionRequest.RecipientPhoneNumber))
             {
@@ -50,8 +51,8 @@ namespace MobileBanking.API.Controllers
 
             if (PhoneListingHelper.CheckIsWhitelisted(transactionRequest.RecipientPhoneNumber))
             {
-                string cacheKey = $"{userId}_{Guid.NewGuid():N}";
-                await _cachingService.Set("", transactionRequest, 300);
+                string cacheKey = $"{transactionRequest.UserId}_{Guid.NewGuid():N}";
+                await _cachingService.Set(cacheKey, transactionRequest, 600);
                 return Ok(new { TransactionToken = cacheKey, TransactionRequest = transactionRequest });
             }
             else
@@ -68,15 +69,19 @@ namespace MobileBanking.API.Controllers
         [Route("Confirm")]
         public async Task<IActionResult> ConfirmTransactionAsync([FromBody] ConfirmTransactionVM confirmTransaction)
         {
-            Request.Headers.TryGetValue("user-id", out var userId);
+            //Request.Headers.TryGetValue("user-id", out var userId);
             var transactionRequest = await _cachingService.Get<InitiateTransactionRequest>(confirmTransaction.TransactionToken);
             
-            var transaction = _transactionService.Add(transactionRequest, TransactionType.DEBIT);
-            if(transaction != null)
+            if(transactionRequest != null)
             {
-                //_transactionService.ProcessOrder(transaction);
+                var transaction = _transactionService.Add(transactionRequest, TransactionType.DEBIT);
+                if (transaction != null)
+                {
+                    _transactionService.ProcessOrder(transaction);
+                }
+                return Ok(new { Message = "Transaction Processing" });
             }
-            return Ok(new { Message = "Transaction Processing"});
+            return new BadRequestObjectResult("Transaction Expired after 5minutes");
         }
 
         [HttpGet]

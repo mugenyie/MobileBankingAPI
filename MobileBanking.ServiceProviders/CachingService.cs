@@ -11,7 +11,6 @@ namespace MobileBanking.ServiceProviders
     public class CachingService : ICachingService
     {
         private readonly IDistributedCache _distributedCache;
-        private readonly string APP_NAME = "MOBILE_BANKING";
 
         public CachingService(IDistributedCache distributedCache)
         {
@@ -24,12 +23,12 @@ namespace MobileBanking.ServiceProviders
             {
                 try
                 {
-                    _distributedCache.SetString(key + $"_{APP_NAME}", JsonConvert.SerializeObject(value), new DistributedCacheEntryOptions
+                    _distributedCache.SetString(key, JsonConvert.SerializeObject(value), new DistributedCacheEntryOptions
                     {
                         AbsoluteExpiration = new DateTimeOffset(DateTime.UtcNow.AddSeconds(timeInSeconds))
                     });
                 }
-                catch (Exception exp)
+                catch (Exception)
                 {
 
                 }
@@ -42,7 +41,7 @@ namespace MobileBanking.ServiceProviders
             {
                 try
                 {
-                    var value = _distributedCache.GetString(key + $"_{APP_NAME}");
+                    var value = _distributedCache.GetString(key);
                     if (!string.IsNullOrEmpty(value))
                         return JsonConvert.DeserializeObject<T>(value);
                     else

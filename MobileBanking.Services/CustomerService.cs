@@ -1,4 +1,5 @@
-﻿using MobileBanking.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MobileBanking.Data;
 using MobileBanking.Data.Models;
 using MobileBanking.Services.Interfaces;
 using MobileBanking.Shared.Exceptions;
@@ -24,6 +25,8 @@ namespace MobileBanking.Services
         {
             var customer = _customersRepository.Query()
                 .Where(u => u.EmailAddress.Equals(user.Email.ToLower()))
+                .Include(x => x.CustomerAccounts)
+                .ThenInclude(x => x.Account)
                 .FirstOrDefault();
 
             if (customer == null)
