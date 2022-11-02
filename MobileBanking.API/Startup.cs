@@ -10,7 +10,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using MobileBanking.Data;
-using MobileBanking.MTN.Services;
 using MobileBanking.ServiceProviders;
 using MobileBanking.ServiceProviders.Interfaces;
 using MobileBanking.Services;

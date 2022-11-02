@@ -40,6 +40,9 @@ namespace MobileBanking.Services
             decimal oldBalance = account.NewBalance;
             decimal newBalance = account.NewBalance + transactionAmount;
 
+            if(newBalance < 0)
+                throw new InvalidAccountExceptions("Insufficient Funds to complete transaction");
+
             account.NewBalance = newBalance;
             _accountRepository.Update(account);
 
@@ -54,7 +57,8 @@ namespace MobileBanking.Services
                 OrderStatus = OrderStatus.PENDING,
                 RecipientId = request.RecipientPhoneNumber,
                 RecipientName = request.RecipientName,
-                TransactionStatus = TransactionStatus.PENDING
+                TransactionStatus = TransactionStatus.PENDING,
+                TransactionStatusMessage = TransactionStatus.PENDING.ToString()
             };
             _transactionLogRepository.Add(transaction);
             return transaction;
@@ -74,9 +78,15 @@ namespace MobileBanking.Services
 
         public void ProcessOrder(TransactionLog transaction)
         {
-            transaction.OrderStatus = OrderStatus.SUCCESSFUL;
-            transaction.TransactionStatus = TransactionStatus.SUCCESSFUL;
-            _transactionLogRepository.Update(transaction);
+            var random = new Random();
+            var probability = random.Next(1, 100);
+            if(probability != 1)
+            {
+                transaction.OrderStatus = OrderStatus.SUCCESSFUL;
+                transaction.TransactionStatus = TransactionStatus.SUCCESSFUL;
+                transaction.TransactionStatusMessage = TransactionStatus.SUCCESSFUL.ToString();
+                _transactionLogRepository.Update(transaction);
+            }
         }
     }
 }

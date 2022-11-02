@@ -6,6 +6,7 @@ using MobileBanking.API.Helpers;
 using MobileBanking.ServiceProviders.Interfaces;
 using MobileBanking.Services.Interfaces;
 using MobileBanking.Shared.Enums;
+using MobileBanking.Shared.Exceptions;
 using MobileBanking.Shared.Helpers;
 using MobileBanking.Shared.ViewModels.Requests;
 using Newtonsoft.Json;
@@ -70,18 +71,27 @@ namespace MobileBanking.API.Controllers
         public async Task<IActionResult> ConfirmTransactionAsync([FromBody] ConfirmTransactionVM confirmTransaction)
         {
             //Request.Headers.TryGetValue("user-id", out var userId);
-            var transactionRequest = await _cachingService.Get<InitiateTransactionRequest>(confirmTransaction.TransactionToken);
-            
-            if(transactionRequest != null)
+            try
             {
-                var transaction = _transactionService.Add(transactionRequest, TransactionType.DEBIT);
-                if (transaction != null)
+                var transactionRequest = await _cachingService.Get<InitiateTransactionRequest>(confirmTransaction.TransactionToken);
+
+                if (transactionRequest != null)
                 {
-                    _transactionService.ProcessOrder(transaction);
+                    var transaction = _transactionService.Add(transactionRequest, TransactionType.DEBIT);
+                    if (transaction != null)
+                    {
+                        _transactionService.ProcessOrder(transaction);
+                    }
+                    return Ok(new { Message = "Transaction Processing" });
                 }
-                return Ok(new { Message = "Transaction Processing" });
+                return new BadRequestObjectResult("Transaction Expired after 5minutes");
+            }catch(InvalidAccountExceptions exp)
+            {
+                return new BadRequestObjectResult(exp.Message);
+            }catch(Exception exp)
+            {
+                return new BadRequestObjectResult("Error performing transaction, contact admin");
             }
-            return new BadRequestObjectResult("Transaction Expired after 5minutes");
         }
 
         [HttpGet]
