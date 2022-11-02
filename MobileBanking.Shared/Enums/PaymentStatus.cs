@@ -6,5 +6,9 @@ namespace MobileBanking.Shared.Enums
 {
     public enum PaymentStatus
     {
+        PENDING,
+        SUCCESSFUL,
+        FAILED,
+        INVALID
     }
 }

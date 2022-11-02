@@ -6,5 +6,9 @@ namespace MobileBanking.Shared.Enums
 {
     public enum OrderStatus
     {
+        PENDING,
+        SUCCESSFUL,
+        FAILED,
+        INVALID
     }
 }

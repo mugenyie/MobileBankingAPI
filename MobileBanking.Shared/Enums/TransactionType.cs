@@ -4,11 +4,9 @@ using System.Text;
 
 namespace MobileBanking.Shared.Enums
 {
-    public enum TransactionStatus
+    public enum TransactionType
     {
-        PENDING,
-        SUCCESSFUL,
-        FAILED,
-        EXPIRED
+        DEBIT,
+        CREDIT
     }
 }

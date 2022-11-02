@@ -7,4 +7,9 @@
     <StartupObject />
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MobileBanking.Data\MobileBanking.Data.csproj" />
+    <ProjectReference Include="..\MobileBanking.Shared\MobileBanking.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

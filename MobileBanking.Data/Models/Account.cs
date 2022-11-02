@@ -10,12 +10,17 @@ namespace MobileBanking.Data.Models
     {
         [Key]
         public int AccountId { get; set; }
+        [StringLength(10)]
         public string AccountNumber { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
+
         [Column(TypeName = "decimal(15,3)")]
         public decimal OpeningBalance { get; set; }
+
         [Column(TypeName = "decimal(15,3)")]
         public decimal NewBalance { get; set; }
+
         public bool IsActive { get; set; }
     }
 }

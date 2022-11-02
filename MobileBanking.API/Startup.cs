@@ -12,6 +12,8 @@ using Microsoft.IdentityModel.Tokens;
 using MobileBanking.Data;
 using MobileBanking.ServiceProviders;
 using MobileBanking.ServiceProviders.Interfaces;
+using MobileBanking.Services;
+using MobileBanking.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,7 +70,12 @@ namespace MobileBanking.API
             });
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            //services.AddScoped<ITransactionService, TransactionService>();
+            services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<ILoggingService, LoggingService>();
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IServiceProviderService, ServiceProviderService>();
+            services.AddScoped<ITransactionLogService, TransactionLogService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

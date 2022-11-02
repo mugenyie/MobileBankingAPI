@@ -11,7 +11,7 @@ namespace MobileBanking.Data
     {
         IQueryable<T> Query();
 
-        T GetById(Guid Id);
+        T GetById(int Id);
 
         void Add(T entity);
 

@@ -70,7 +70,7 @@ namespace MobileBanking.WorkerService
 
                         using (var scope = _services.CreateScope())
                         {
-                            var _transactionLogService = scope.ServiceProvider.GetRequiredService<ILogDataService>();
+                            var _transactionLogService = scope.ServiceProvider.GetRequiredService<ILoggingService>();
                             //_transactionLogService.AddTransactionLogAsync((string)log.Title, (string)log.Data);
                         }
                     }));

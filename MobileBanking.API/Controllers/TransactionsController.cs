@@ -1,0 +1,90 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using MobileBanking.API.Attributes;
+using MobileBanking.API.Helpers;
+using MobileBanking.ServiceProviders.Interfaces;
+using MobileBanking.Services.Interfaces;
+using MobileBanking.Shared.Enums;
+using MobileBanking.Shared.Helpers;
+using MobileBanking.Shared.ViewModels.Requests;
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace MobileBanking.API.Controllers
+{
+    [ApiKey]
+    [Route("api/[controller]")]
+    [ApiController]
+    public class TransactionsController : ControllerBase
+    {
+        private readonly ITransactionLogService _transactionService;
+        private readonly ILoggingService _loggingService;
+        private readonly ICachingService _cachingService;
+
+        public TransactionsController(ITransactionLogService transactionService, ILoggingService loggingService, ICachingService cachingService)
+        {
+            _transactionService = transactionService;
+            _loggingService = loggingService;
+            _cachingService = cachingService;
+        }
+
+        [HttpPost]
+        [Route("Initiate")]
+        public async Task<IActionResult> InitiateTransactionAsync([FromBody] InitiateTransactionRequest transactionRequest)
+        {
+            Request.Headers.TryGetValue("user-id", out var userId);
+
+            if (!StringHelpers.IsValidPhoneNumber(transactionRequest.RecipientPhoneNumber))
+            {
+                ModelState.AddModelError(nameof(transactionRequest.RecipientPhoneNumber), "Invalid phone number format");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return UnprocessableEntity(ModelState);
+            }
+
+            if (PhoneListingHelper.CheckIsWhitelisted(transactionRequest.RecipientPhoneNumber))
+            {
+                string cacheKey = $"{userId}_{Guid.NewGuid():N}";
+                await _cachingService.Set("", transactionRequest, 300);
+                return Ok(new { TransactionToken = cacheKey, TransactionRequest = transactionRequest });
+            }
+            else
+            {
+                if (PhoneListingHelper.CheckIsBlacklisted(transactionRequest.RecipientPhoneNumber))
+                {
+                    return new BadRequestObjectResult("Phone Number Blacklisted");
+                }
+            }
+            return new BadRequestObjectResult("Unsupported Phone Number");
+        }
+
+        [HttpPost]
+        [Route("Confirm")]
+        public async Task<IActionResult> ConfirmTransactionAsync([FromBody] ConfirmTransactionVM confirmTransaction)
+        {
+            Request.Headers.TryGetValue("user-id", out var userId);
+            var transactionRequest = await _cachingService.Get<InitiateTransactionRequest>(confirmTransaction.TransactionToken);
+            
+            var transaction = _transactionService.Add(transactionRequest, TransactionType.DEBIT);
+            if(transaction != null)
+            {
+                //_transactionService.ProcessOrder(transaction);
+            }
+            return Ok(new { Message = "Transaction Processing"});
+        }
+
+        [HttpGet]
+        [Route("History/{accountNumber}")]
+        public IActionResult GetTransactionHistory(string accountNumber, DateTime fromDate, DateTime to)
+        {
+            var transactions = _transactionService.GetHistory(accountNumber);
+            return Ok(transactions);
+        }
+    }
+}

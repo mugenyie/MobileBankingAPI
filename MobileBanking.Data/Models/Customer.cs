@@ -16,5 +16,7 @@ namespace MobileBanking.Data.Models
         public string PasswordHash { get; set; }
         public string PhoneNumber { get; set; }
         public bool IsActive { get; set; }
+
+        public virtual ICollection<CustomerAccount> CustomerAccounts { get; set; }
     }
 }

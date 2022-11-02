@@ -11,13 +11,14 @@ namespace MobileBanking.Data.Models
     {
         [Key]
         public int Id { get; set; }
-        public string AccountId { get; set; }
+        public string AccountNumber { get; set; }
         [Column(TypeName = "decimal(15,3)")]
         public decimal Amount { get; set; }
         [Column(TypeName = "decimal(15,3)")]
         public decimal NewBalance { get; set; }
         public string Description { get; set; }
         public string RecipientId { get; set; }
+        public string RecipientName { get; set; }
         public int ProductId { get; set; }
         public int ServiceProviderId { get; set; }
         public PaymentStatus PaymentStatus { get; set; }

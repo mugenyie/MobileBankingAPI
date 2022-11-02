@@ -59,7 +59,7 @@ namespace MobileBanking.Data
             Context.SaveChanges();
         }
 
-        public T GetById(Guid Id)
+        public T GetById(int Id)
         {
             return DbSet.Find(Id);
         }
