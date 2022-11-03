@@ -38,7 +38,10 @@ namespace MobileBanking.API.Controllers
         [Route("Initiate")]
         public async Task<IActionResult> InitiateTransactionAsync([FromBody] InitiateTransactionRequest transactionRequest)
         {
-            //Request.Headers.TryGetValue("user-id", out var userId);
+            Request.Headers.TryGetValue("user-id", out var headerUserId);
+            int.TryParse(headerUserId, out int userIdHeader);
+            if (userIdHeader != transactionRequest.UserId)
+                return new BadRequestObjectResult("Invalid user");
 
             if (!StringHelpers.IsValidPhoneNumber(transactionRequest.RecipientPhoneNumber))
             {
@@ -70,7 +73,6 @@ namespace MobileBanking.API.Controllers
         [Route("Confirm")]
         public async Task<IActionResult> ConfirmTransactionAsync([FromBody] ConfirmTransactionVM confirmTransaction)
         {
-            //Request.Headers.TryGetValue("user-id", out var userId);
             try
             {
                 var transactionRequest = await _cachingService.Get<InitiateTransactionRequest>(confirmTransaction.TransactionToken);
